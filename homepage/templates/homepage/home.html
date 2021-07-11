@@ -75,9 +75,12 @@
             <!-- Takes in csv file input -->
           <form action="{% url 'home' %}" method='post' enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="text" class="custom-file-input" id="textGroupFile" name="text">
-            <label class="custom-file-label" for="textGroupFile"></label>
-            <input class="btn btn-primary my-2" type="submit">
+            <form action="/prediction/" method="post">
+              <label for="your_name">Your Profession</label>
+              <input id="your_name" type="text" name="your_name" value="">
+              <input type="submit" value="OK">
+          </form>
+          
           </form>
 
 

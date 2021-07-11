@@ -4,7 +4,6 @@ from numpy import genfromtxt
 import numpy as np
 import os
 from io import StringIO
-from pickle import load
 from django.core.files.storage import FileSystemStorage
 import inspect
 import matplotlib.pyplot as plt
@@ -25,8 +24,6 @@ from transformers import BartTokenizer, BartForConditionalGeneration, BartConfig
 # Create your views here.
 
 
-
-model = load(open("/Users/harshi/Downloads/blindsite - Copy (2)/homepage/knn.pkl","rb"))
 global fileString
 prob = None
 def home(request):
@@ -40,17 +37,8 @@ def home(request):
         return HttpResponseRedirect('upload')
     return render(request, 'homepage/home.html')
 
-def upload(request):
-    thePath = os.path.abspath(inspect.getfile(home))
-    global prob
-    global fileString
-    cond = False
-    my_data = get_csv_file("C:\\Users\harsh\\Downloads\\blindsite_-_Copy_2\\blindsite - Copy (2)\\"+str(fileString))
-    result = model.predict(np.array([my_data]))
-    if result[0] == 1:
-        cond = True
-    myVar = flux_graph(my_data, "fluxgraph")
-    return render(request, 'homepage/results.html', {'cond':cond,'prob':prob, 'my_data':my_data.tolist(), 'storageVar':myVar})
+def getProfession(request):
+    print("juice")
 
 
 #Query Functions
@@ -119,5 +107,10 @@ def query(title_of_article, otherprofessions):
 
 def prediction(request):
     #Prediction of Profession
+    form = ProfessionForm()
     prediction = query(summarization(getArticle('Robotics')),'Robotics,Chemistry,Doctor,Computer Science,Business')
-    return render(request, 'homepage/prediction.html', {'prediction': prediction})
+    context = {
+        'prediction': prediction,
+        'form' : form
+    }
+    return render(request, 'homepage/prediction.html', {})

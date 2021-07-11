@@ -20,6 +20,6 @@ import homepage.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homepage.views.home, name='home'),
-    path('upload', homepage.views.upload, name='upload'),
+    path('upload', homepage.views.getProfession, name='upload'),
     path('prediction/', homepage.views.prediction, name='prediction'),
 ]
