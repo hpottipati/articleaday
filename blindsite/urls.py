@@ -19,7 +19,7 @@ import homepage.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', homepage.views.home, name='home'),
+    path('', homepage.views.home, name='index'),
     path('upload', homepage.views.getProfession, name='upload'),
     path('prediction/', homepage.views.prediction, name='prediction'),
     path('register/', homepage.views.register, name='register'),

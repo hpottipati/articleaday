@@ -37,10 +37,10 @@ def home(request):
         uploaded_file_url = fs.url(filename)
         fileString = str(uploaded_file_url)
         return HttpResponseRedirect('upload')
-    return render(request, 'homepage/home.html',)
+    return render(request, 'homepage/index.html',)
 
 def getProfession(request):
-    print("juice")
+    print("juice cat")
 
 
 #Query Functions
