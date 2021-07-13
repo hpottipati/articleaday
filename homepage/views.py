@@ -20,6 +20,8 @@ import requests
 import torch
 from sentence_transformers import SentenceTransformer, util
 from transformers import BartTokenizer, BartForConditionalGeneration, BartConfig, AutoModelForSeq2SeqLM, AutoTokenizer, pipeline, AutoTokenizer, AutoModel 
+from .forms import ProfessionForm, CreateUserForm
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 
@@ -35,7 +37,7 @@ def home(request):
         uploaded_file_url = fs.url(filename)
         fileString = str(uploaded_file_url)
         return HttpResponseRedirect('upload')
-    return render(request, 'homepage/home.html')
+    return render(request, 'homepage/home.html',)
 
 def getProfession(request):
     print("juice")
@@ -107,10 +109,28 @@ def query(title_of_article, otherprofessions):
 
 def prediction(request):
     #Prediction of Profession
-    form = ProfessionForm()
+ 
     prediction = query(summarization(getArticle('Robotics')),'Robotics,Chemistry,Doctor,Computer Science,Business')
     context = {
         'prediction': prediction,
-        'form' : form
     }
-    return render(request, 'homepage/prediction.html', {})
+    return render(request, 'homepage/prediction.html', context)
+def register(request):
+    form = CreateUserForm()
+    
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'homepage/register.html', context)
+def login(request):
+    context ={
+        
+    }
+    return render(request, 'homepage/login.html', context)
