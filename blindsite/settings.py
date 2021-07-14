@@ -124,7 +124,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'C:\\Users\\harsh\Downloads\\blindsite_-_Copy_2\\blindsite - Copy (2)\\blindsite\\static')
+
+    os.path.join(BASE_DIR, '/Users/harshi/Documents/GitHub/articleaday/homepage/static')
 ]
 
 # Default primary key field type

@@ -1,5 +1,5 @@
 import pickle
-from django.shortcuts import HttpResponse, HttpResponseRedirect, render
+from django.shortcuts import HttpResponse, HttpResponseRedirect, render, redirect
 from numpy import genfromtxt
 import numpy as np
 import os
@@ -21,7 +21,10 @@ import torch
 from sentence_transformers import SentenceTransformer, util
 from transformers import BartTokenizer, BartForConditionalGeneration, BartConfig, AutoModelForSeq2SeqLM, AutoTokenizer, pipeline, AutoTokenizer, AutoModel 
 from .forms import ProfessionForm, CreateUserForm
+from .models import *
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 
@@ -37,7 +40,7 @@ def home(request):
         uploaded_file_url = fs.url(filename)
         fileString = str(uploaded_file_url)
         return HttpResponseRedirect('upload')
-    return render(request, 'homepage/index.html',)
+    return render(request, 'homepage/index/home.html',)
 
 def getProfession(request):
     print("juice cat")
@@ -115,13 +118,15 @@ def prediction(request):
         'prediction': prediction,
     }
     return render(request, 'homepage/prediction.html', context)
-def register(request):
+def registerPage(request):
     form = CreateUserForm()
     
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, f"Account was created for {form.cleaned_data['username']}")
+            return redirect('login')
 
 
     context = {
@@ -129,8 +134,32 @@ def register(request):
     }
 
     return render(request, 'homepage/register.html', context)
-def login(request):
-    context ={
-        
+def loginPage(request):
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.info(request, 'username or password is incorrect')
+            
+    context = {
+
     }
     return render(request, 'homepage/login.html', context)
+
+def logoutUser(request):
+	logout(request)
+	return redirect('login') 
+
+def aboutUsPage(request):
+   return render(request, 'homepage/aboutus.html')
+
+
+
+    
