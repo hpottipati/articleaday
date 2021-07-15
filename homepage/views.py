@@ -24,7 +24,8 @@ from .forms import ProfessionForm, CreateUserForm
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import *
+from django.contrib.auth.decorators import *
 
 # Create your views here.
 
@@ -160,6 +161,3 @@ def logoutUser(request):
 def aboutUsPage(request):
    return render(request, 'homepage/aboutus.html')
 
-
-
-    
