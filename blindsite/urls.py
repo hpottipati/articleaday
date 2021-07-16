@@ -26,4 +26,5 @@ urlpatterns = [
     path('login/', homepage.views.loginPage, name='login'),
     path('logout/', homepage.views.logoutUser, name='logout'),
     path('aboutus/', homepage.views.aboutUsPage, name='aboutus'),
+    path('autosorter/', homepage.views.autoSorterPage, name='autosorter'),
 ]

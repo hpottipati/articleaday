@@ -161,3 +161,5 @@ def logoutUser(request):
 def aboutUsPage(request):
    return render(request, 'homepage/aboutus.html')
 
+def autoSorterPage(request):
+    return render(request, 'homepage/autosorter.html')
