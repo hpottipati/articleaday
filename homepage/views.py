@@ -26,10 +26,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import *
 from django.contrib.auth.decorators import *
+from .Autosorter.quickstart import main
 
 # Create your views here.
 
-
+ 
 global fileString
 prob = None
 def home(request):
@@ -163,3 +164,8 @@ def aboutUsPage(request):
 
 def autoSorterPage(request):
     return render(request, 'homepage/autosorter.html')
+
+
+def autoSortermain(): 
+    main()
+
