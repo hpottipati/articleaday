@@ -26,7 +26,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import *
 from django.contrib.auth.decorators import *
-from .Autosorter.quickstart import main
+from .Autosorter.quickstart import driveApiSorter
 
 # Create your views here.
 
@@ -166,6 +166,10 @@ def autoSorterPage(request):
     return render(request, 'homepage/autosorter.html')
 
 
-def autoSortermain(): 
-    main()
+def autoSortermain(request): 
+    driveApiSorter()
+    context = {
+
+    }
+    return render(request, 'homepage/autosorter.html', context)
 

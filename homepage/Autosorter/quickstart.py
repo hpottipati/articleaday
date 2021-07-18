@@ -8,9 +8,8 @@ from google.oauth2.credentials import Credentials
 import datetime
 import sys
 import os
-from sort import query
+from .sort import query
 
-print("PATH " + sys.path)
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/drive']
@@ -33,7 +32,7 @@ if not creds or not creds.valid:
         creds.refresh(Request())
     else:
         flow = InstalledAppFlow.from_client_secrets_file(
-            'credentials.json', SCOPES)
+            'homepage/Autosorter/credentials.json', SCOPES)
         creds = flow.run_local_server(port=0)
     # Save the credentials for the next run
     with open('token.json', 'w') as token:
@@ -52,8 +51,8 @@ def createFolder():
     # Subjects (folders)
     
     # Opens requirements.txt
-    f = open("requirements.txt", "r+")
-    filesize = os.path.getsize("requirements.txt")
+    f = open("homepage/Autosorter/requirements.txt", "r+")
+    filesize = os.path.getsize("homepage/Autosorter/requirements.txt")
     print(filesize)
     ids = []
     if filesize == 0:
@@ -100,7 +99,7 @@ createFolder()
 
 # Loops over all files
 
-def main():
+def driveApiSorter():
 	page_token = None
 	while True:
 	    response = service.files().list(q="mimeType='application/vnd.google-apps.document'" or "mimeType='application/vnd.google-apps.drawing'" or "mimeType='application/vnd.google-apps.form'" or "mimeType='application/vnd.google-apps.presentation'" or "mimeType='application/vnd.google-apps.spreadsheet'",
@@ -130,5 +129,3 @@ def main():
 	        break
 
 	print("Task completed! :)")
-
-main()
