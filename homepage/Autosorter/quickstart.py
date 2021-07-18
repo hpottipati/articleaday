@@ -10,6 +10,8 @@ import sys
 import os
 from sort import query
 
+print("PATH " + sys.path)
+
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/drive']
 
