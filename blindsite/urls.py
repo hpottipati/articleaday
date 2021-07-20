@@ -30,6 +30,6 @@ urlpatterns = [
     path('aboutus/', homepage.views.aboutUsPage, name='aboutus'),
     path('autosorter/', homepage.views.autoSorterPage, name='autosorter'),
     path('runSorter', homepage.views.autoSortermain, name='runSorter'),
-    path('googleacc', TemplateView.as_view(template_name='homepage/googlelogin.html')),
-    path('accounts/', include('allauth.url')),
+    path('juice', TemplateView.as_view(template_name='social_app/index.html')), 
+    path('accounts/', include('allauth.urls')),
  ]
