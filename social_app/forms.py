@@ -2,7 +2,6 @@ from dataclasses import field
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from matplotlib.pyplot import cla
 
 
 class ProfessionForm(forms.Form):
@@ -18,4 +17,5 @@ class CreateUserForm(UserCreationForm):
 
 class LoginForm(UserCreationForm):
     class Meta:
+        model = User
         fields = ['username', 'password']

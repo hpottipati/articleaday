@@ -20,13 +20,13 @@ import requests
 import torch
 from sentence_transformers import SentenceTransformer, util
 from transformers import BartTokenizer, BartForConditionalGeneration, BartConfig, AutoModelForSeq2SeqLM, AutoTokenizer, pipeline, AutoTokenizer, AutoModel 
-from .forms import ProfessionForm, CreateUserForm
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import *
 from django.contrib.auth.decorators import *
 from .Autosorter.quickstart import driveApiSorter
+import psycopg2
 
 # Create your views here.
 
@@ -120,44 +120,7 @@ def prediction(request):
         'prediction': prediction,
     }
     return render(request, 'homepage/prediction.html', context)
-def registerPage(request):
-    form = CreateUserForm()
-    
-    if request.method == 'POST':
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f"Account was created for {form.cleaned_data['username']}")
-            return redirect('login')
 
-
-    context = {
-        'form': form,
-    }
-
-    return render(request, 'homepage/register.html', context)
-def loginPage(request):
-
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.info(request, 'username or password is incorrect')
-            
-    context = {
-
-    }
-    return render(request, 'homepage/login.html', context)
-
-def logoutUser(request):
-	logout(request)
-	return redirect('login') 
 
 def aboutUsPage(request):
    return render(request, 'homepage/aboutus.html')
@@ -172,4 +135,6 @@ def autoSortermain(request):
 
     }
     return render(request, 'homepage/autosorter.html', context)
+
+
 

@@ -9,6 +9,7 @@ import datetime
 import sys
 import os
 from .sort import query
+import psycopg2
 
 
 # If modifying these scopes, delete the file token.json.
@@ -43,7 +44,70 @@ service = build('drive', 'v3', credentials=creds)
 
 # If folders are already created and stored in requirements.txt,
 # read them from requirements.txt and store them in ids.
-# If not, create folders and put ids in ids.
+# If not, create folders and put ids in ids.\
+
+def getRowsFromDatabase():
+    try:
+        connection = psycopg2.connect(user="ujfijzsb",
+                                    password="NWC_if3eTGyHWGRon1UcrEy7iRsPGm5p",
+                                    host="batyr.db.elephantsql.com",
+                                    port="5432",
+                                    database="ujfijzsb")
+        cursor = connection.cursor()
+        postgreSQL_select_Query = "select * from mobile"
+
+        cursor.execute(postgreSQL_select_Query)
+        print("Selecting rows from mobile table using cursor.fetchall")
+        mobile_records = cursor.fetchall()
+
+        print("Print each row and it's columns values")
+        for row in mobile_records:
+            print("Id = ", row[0], )
+            print("Model = ", row[1])
+            print("Price  = ", row[2], "\n")
+
+    except (Exception, psycopg2.Error) as error:
+        print("Error while fetching data from PostgreSQL", error)
+
+    finally:
+        # closing database connection.
+        if connection:
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
+
+#!/usr/bin/python
+
+def insert_vendor(vendor_name):
+    sql = """INSERT INTO user_folderid(vendor_name)
+             VALUES(%s) RETURNING vendor_id;"""
+    conn = None
+    vendor_id = None
+    try:
+        # connect to the PostgreSQL database
+        conn = psycopg2.connect(user="ujfijzsb",
+                                    password="NWC_if3eTGyHWGRon1UcrEy7iRsPGm5p",
+                                    host="batyr.db.elephantsql.com",
+                                    port="5432",
+                                    database="ujfijzsb")
+        # create a new cursor
+        cur = conn.cursor()
+        # execute the INSERT statement
+        cur.execute(sql, (vendor_name,))
+        # get the generated id back
+        vendor_id = cur.fetchone()[0]
+        # commit the changes to the database
+        conn.commit()
+        # close communication with the database
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+    return vendor_id
+
 def createFolder():
     global subjects
     global folder_ids
@@ -127,5 +191,4 @@ def driveApiSorter():
 	    page_token = response.get('nextPageToken', None)
 	    if page_token is None:
 	        break
-
 	print("Task completed! :)")

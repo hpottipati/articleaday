@@ -84,8 +84,12 @@ WSGI_APPLICATION = 'blindsite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ujfijzsb',
+        'USER': 'ujfijzsb',
+        'PASSWORD': 'NWC_if3eTGyHWGRon1UcrEy7iRsPGm5p',
+        'HOST': 'batyr.db.elephantsql.com',
+        'PORT': '5432'
     }
 }
 
@@ -160,3 +164,5 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+MEDIA_URL='/media/'
+MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
