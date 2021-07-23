@@ -46,7 +46,7 @@ service = build('drive', 'v3', credentials=creds)
 # read them from requirements.txt and store them in ids.
 # If not, create folders and put ids in ids.\
 
-def getRowsFromDatabase():
+def getRowsFromDatabase(userid):
     try:
         connection = psycopg2.connect(user="ujfijzsb",
                                     password="NWC_if3eTGyHWGRon1UcrEy7iRsPGm5p",
@@ -54,17 +54,11 @@ def getRowsFromDatabase():
                                     port="5432",
                                     database="ujfijzsb")
         cursor = connection.cursor()
-        postgreSQL_select_Query = "select * from mobile"
+        postgreSQL_select_Query = "select user_id from account_emailaddress"
 
         cursor.execute(postgreSQL_select_Query)
         print("Selecting rows from mobile table using cursor.fetchall")
-        mobile_records = cursor.fetchall()
-
-        print("Print each row and it's columns values")
-        for row in mobile_records:
-            print("Id = ", row[0], )
-            print("Model = ", row[1])
-            print("Price  = ", row[2], "\n")
+        user_id = cursor.fetchall()
 
     except (Exception, psycopg2.Error) as error:
         print("Error while fetching data from PostgreSQL", error)
@@ -78,8 +72,12 @@ def getRowsFromDatabase():
 
 #!/usr/bin/python
 
-def insert_vendor(vendor_name):
-    sql = """INSERT INTO user_folderid(vendor_name)
+def getEmailOfUser(request):
+    return request.user.id
+
+
+def insert_vendor(request, vendor_name):
+    sql = """INSERT INTO user_folderid(folderid)
              VALUES(%s) RETURNING vendor_id;"""
     conn = None
     vendor_id = None
@@ -116,10 +114,8 @@ def createFolder():
     
     # Opens requirements.txt
     f = open("homepage/Autosorter/requirements.txt", "r+")
-    filesize = os.path.getsize("homepage/Autosorter/requirements.txt")
-    print(filesize)
     ids = []
-    if filesize == 0:
+    if True:
         # If requirements.txt is empty, make folders and get id
         for subject in subjects:
             file_metadata = {
@@ -129,16 +125,16 @@ def createFolder():
             file = service.files().create(body=file_metadata,
                                                 fields='id').execute()
             id = file.get('id')
-            ids.append(id)
+            insert_vendor(id)
             f.write(id + "\n")
     else:
         # Else, read ids from requirements.txt into ids array
         ids = [id.replace("\n", "") for id in f.readlines()]
 
     # Fill dict folder_ids with subjects as the keys and the ids as the values
-    print(ids)
-    for i in range(len(subjects)):
-        folder_ids[subjects[i]] = ids[i]
+    # print(ids)
+    # for i in range(len(subjects)):
+    #     folder_ids[subjects[i]] = ids[i]
 
 # Create shortcut to file from folder
 def createShortcut(file_id, folder_id):

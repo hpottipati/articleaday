@@ -8,6 +8,7 @@
   <meta name="author" content="" />
   <title>Hackedt</title>
   {% load static %}
+  {% load socialaccount %}
   <!-- Favicon-->
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <!-- Bootstrap icons-->
@@ -31,10 +32,18 @@
           <li class="nav-item"><a class="nav-link" href="#!"> Contact </a></li>
         </ul>
       </div>
-      <span class="text-light"> Hello, {{request.user}}</span>
-      <span><a href="{% url 'logout' %}">Logout</a></span>
-
-
+      <hr>
+      {% if user.is_authenticated %}
+      <div class="m-6">
+        <span class="text-light"> Hello,   {{request.user}}</span>
+        <span><a href="{% url 'logout' %}">Logout</a></span>
+      </div>
+      {% else %}
+      <div>
+        <span class=""><a href="{% url 'register' %}">Register</a></span>
+        <span><a href="{% url 'login' %}">Login</a></span>
+      </div>
+      {% endif %}
     </div>
   </nav>
   <!-- Header-->

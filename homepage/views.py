@@ -30,7 +30,7 @@ import psycopg2
 
 # Create your views here.
 
- 
+
 global fileString
 prob = None
 def home(request):
@@ -138,3 +138,4 @@ def autoSortermain(request):
 
 
 
+    
