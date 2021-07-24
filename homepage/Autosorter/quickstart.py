@@ -11,7 +11,6 @@ import os
 from .sort import query
 import psycopg2
 
-
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/drive']
 
@@ -33,7 +32,7 @@ if not creds or not creds.valid:
         creds.refresh(Request())
     else:
         flow = InstalledAppFlow.from_client_secrets_file(
-            'homepage/Autosorter/credentials.json', SCOPES)
+            'credentials.json', SCOPES)
         creds = flow.run_local_server(port=0)
     # Save the credentials for the next run
     with open('token.json', 'w') as token:
@@ -44,68 +43,7 @@ service = build('drive', 'v3', credentials=creds)
 
 # If folders are already created and stored in requirements.txt,
 # read them from requirements.txt and store them in ids.
-# If not, create folders and put ids in ids.\
-
-def getRowsFromDatabase(userid):
-    try:
-        connection = psycopg2.connect(user="ujfijzsb",
-                                    password="NWC_if3eTGyHWGRon1UcrEy7iRsPGm5p",
-                                    host="batyr.db.elephantsql.com",
-                                    port="5432",
-                                    database="ujfijzsb")
-        cursor = connection.cursor()
-        postgreSQL_select_Query = "select user_id from account_emailaddress"
-
-        cursor.execute(postgreSQL_select_Query)
-        print("Selecting rows from mobile table using cursor.fetchall")
-        user_id = cursor.fetchall()
-
-    except (Exception, psycopg2.Error) as error:
-        print("Error while fetching data from PostgreSQL", error)
-
-    finally:
-        # closing database connection.
-        if connection:
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-
-#!/usr/bin/python
-
-def getEmailOfUser(request):
-    return request.user.id
-
-
-def insert_vendor(request, vendor_name):
-    sql = """INSERT INTO user_folderid(folderid)
-             VALUES(%s) RETURNING vendor_id;"""
-    conn = None
-    vendor_id = None
-    try:
-        # connect to the PostgreSQL database
-        conn = psycopg2.connect(user="ujfijzsb",
-                                    password="NWC_if3eTGyHWGRon1UcrEy7iRsPGm5p",
-                                    host="batyr.db.elephantsql.com",
-                                    port="5432",
-                                    database="ujfijzsb")
-        # create a new cursor
-        cur = conn.cursor()
-        # execute the INSERT statement
-        cur.execute(sql, (vendor_name,))
-        # get the generated id back
-        vendor_id = cur.fetchone()[0]
-        # commit the changes to the database
-        conn.commit()
-        # close communication with the database
-        cur.close()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    finally:
-        if conn is not None:
-            conn.close()
-
-    return vendor_id
-
+# If not, create folders and put ids in ids.
 def createFolder():
     global subjects
     global folder_ids
@@ -113,7 +51,7 @@ def createFolder():
     # Subjects (folders)
     
     # Opens requirements.txt
-    f = open("homepage/Autosorter/requirements.txt", "r+")
+    #print(filesize)
     ids = []
     if True:
         # If requirements.txt is empty, make folders and get id
@@ -125,16 +63,16 @@ def createFolder():
             file = service.files().create(body=file_metadata,
                                                 fields='id').execute()
             id = file.get('id')
-            insert_vendor(id)
-            f.write(id + "\n")
+            ids.append(id)
+            #f.write(id + "\n")
     else:
         # Else, read ids from requirements.txt into ids array
         ids = [id.replace("\n", "") for id in f.readlines()]
 
     # Fill dict folder_ids with subjects as the keys and the ids as the values
-    # print(ids)
-    # for i in range(len(subjects)):
-    #     folder_ids[subjects[i]] = ids[i]
+    print(ids)
+    for i in range(len(subjects)):
+        folder_ids[subjects[i]] = ids[i]
 
 # Create shortcut to file from folder
 def createShortcut(file_id, folder_id):
@@ -187,4 +125,5 @@ def driveApiSorter():
 	    page_token = response.get('nextPageToken', None)
 	    if page_token is None:
 	        break
+
 	print("Task completed! :)")

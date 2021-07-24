@@ -85,10 +85,10 @@ WSGI_APPLICATION = 'blindsite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ujfijzsb',
-        'USER': 'ujfijzsb',
+        'NAME': 'postgres',
+        'USER': 'postgres',
         'PASSWORD': 'NWC_if3eTGyHWGRon1UcrEy7iRsPGm5p',
-        'HOST': 'batyr.db.elephantsql.com',
+        'HOST': 'localhost',
         'PORT': '5432'
     }
 }
