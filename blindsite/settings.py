@@ -46,7 +46,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount',   
     'allauth.socialaccount.providers.google',
     # 'django.contrib.sites.models.Site'
+    'articleaday',
+    'contactform',
 ]
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -15,15 +15,11 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
   <!-- Core theme CSS (includes Bootstrap)-->
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/navstyle.css' %}">
 </head>
 
 <style>
-  .auth_btn{
-    color: #0D6EFD
- }
- .auth_btn :hover{
-  color:rgba(13, 109, 253, 0.711)D
- }
+
 </style>
 <body>
   <!-- Responsive navbar-->
@@ -36,22 +32,23 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item"><a class="nav-link" href="{% url 'aboutus' %}"> About Us </a></li>
-          <li class="nav-item"><a class="nav-link" href="#!"> Products </a></li>
           <li class="nav-item"><a class="nav-link" href="#!"> Contact </a></li>
 
           {% if user.is_authenticated %}
           <li class="nav-item">
-              <a style="pointer-events: none;
+            <a style="pointer-events: none;
               cursor: default;" href="#" class="nav-link">Hello, {{request.user}}
-              </a>
+            </a>
           </li>
           <li>
-            <a class="nav-link auth_btn" href="{% url 'logout' %}">Logout</a>
+            <a class="auth_btn nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
           {% else %}
-          <li class="nav-item">
-            <span class=""><a href="{% url 'register' %}">Register</a></span>
-            <!-- <span><a href="{% url 'login' %}">Login</a></span> -->
+          <li>
+            <a class="auth_btn nav-link" href="{% url 'register' %}">Register</a>
+          </li>
+          <li>
+            <a class="nav-link auth_btn" href="{% url 'login' %}">Login</a>
           </li>
           {% endif %}
       </div>
@@ -83,18 +80,18 @@
       <div class="row gx-5">
         <div class="col-lg-4 mb-5 mb-lg-0">
           <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-newspaper"></i></div>
-          <h2 class="h4 fw-bolder">Article a Day</h2>
+          <h4 class="h4 fw-bolder">Article a Day</h4>
           <p>This app shows you recent developments in any fields. We have added additional features for students going
             through any test prep as well to help them boost their reading skills.
           </p>
-          <a class="text-decoration-none" href="#!">
+          <a class="text-decoration-none" href="{% url 'article' %}">
             Learn more about Article A Day
             <i class="bi bi-arrow-right"></i>
           </a>
         </div>
         <div class="col-lg-4 mb-5 mb-lg-0">
           <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-folder"></i></div>
-          <h2 class="h4 fw-bolder">AutoSort</h2>
+          <h4 class="h4 fw-bolder">AutoSort</h4>
           <p>
             Originally built for Hack Phoenix 2021, this project sorts files in your Google Drive into whatever folders
             you wish. We initially had students in mind when making this project, but we've expanded it for anyone to
@@ -108,7 +105,7 @@
         <div class="col-lg-4">
           <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-receipt-cutoff"></i>
           </div>
-          <h2 class="h4 fw-bolder">ReceiptScanner</h2>
+          <h4 class="h4 fw-bolder">ReceiptScanner</h4>
           <p>This project scans your shopping receipts and presents your weekly, monthly, and yearly spending in a
             simple and easy to read dashboard with graphs, charts, and statistics. </p>
           <a class="text-decoration-none" href="#!">
@@ -245,18 +242,16 @@
   <!-- Footer-->
   <footer class="py-5 bg-dark">
     <div class="container px-5">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p>
+      <p class="m-0 text-center text-white">Copyright &copy; Hackedt 
+        2021</p>
     </div>
   </footer>
   <!-- Bootstrap core JS-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Core theme JS-->
   <script src="js/scripts.js"></script>
-  <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-  <!-- * *                               SB Forms JS                               * *-->
-  <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-  <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
   <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
+
 
 </html>

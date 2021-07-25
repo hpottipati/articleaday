@@ -1,3 +1,4 @@
+"""
 import psycopg2
 def getRowsFromDatabase(postgreSQL_select_Query):
     try:
@@ -60,3 +61,10 @@ def getUserID():
 
 user_id = getUserID()
 sql_request(f"INSERT INTO user_folderid(user_id,folder_id) VALUES ({user_id}, 'cat');")
+
+"""
+
+cat = 'abc'
+if cat: 
+    print('cat')
+

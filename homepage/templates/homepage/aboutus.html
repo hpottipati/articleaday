@@ -12,15 +12,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hackedt - About Us</title>
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-  <link rel="stylesheet" href="{% static 'css/products.css' %}">
+  <link rel="stylesheet" href="{% static 'css/navstyle.css' %}">
+  <!-- <link rel="stylesheet" href="{% static 'css/products.css' %}"> -->
   <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
   <link href="/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
-
 </head>
+
+<style>
+</style>
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -32,23 +35,29 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item"><a class="nav-link" href="{% url 'aboutus' %}"> About Us </a></li>
-          <li class="nav-item"><a class="nav-link" href="#!"> Products </a></li>
           <li class="nav-item"><a class="nav-link" href="#!"> Contact </a></li>
-        </ul>
+
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a style="pointer-events: none;
+              cursor: default;" href="#" class="nav-link">Hello, {{request.user}}
+            </a>
+          </li>
+          <li>
+            <a class="auth_btn nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+          {% else %}
+          <li>
+            <a class="auth_btn nav-link" href="{% url 'register' %}">Register</a>
+          </li>
+          <li>
+            <a class="nav-link auth_btn" href="{% url 'login' %}">Login</a>
+          </li>
+          {% endif %}
       </div>
-      <hr>
-      {% if user.is_authenticated %}
-      <div class="m-6">
-        <span class="text-light"> Hello,   {{request.user}}</span>
-        <span><a href="{% url 'logout' %}">Logout</a></span>
-      </div>
-      {% else %}
-      <div>
-        <span class=""><a href="{% url 'register' %}">Register</a></span>
-        <span><a href="{% url 'login' %}">Login</a></span>
-      </div>
-      {% endif %}
+      </ul>
     </div>
+
   </nav>
 
   <div class="bg-dark">

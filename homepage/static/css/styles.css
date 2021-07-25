@@ -61,6 +61,14 @@ body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+.auth_btn {
+  color: #0D6EFD !important
+}
+
+.auth_btn:hover {
+  color: rgba(55, 104, 178, 0.964) !important
+} 
+
 hr {
   margin: 1rem 0;
   color: inherit;
