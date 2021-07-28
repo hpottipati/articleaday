@@ -1,30 +1,17 @@
-import pickle
 from django.shortcuts import HttpResponse, HttpResponseRedirect, render, redirect
 import os
 from io import StringIO
 from django.core.files.storage import FileSystemStorage
-import matplotlib.pyplot as plt
 from IPython.display import display
 from pygooglenews import GoogleNews
 import datetime as dt
 import pandas as pd
-import json
-import requests
-import torch
-from sentence_transformers import SentenceTransformer, util
-from transformers import BartTokenizer, BartForConditionalGeneration, BartConfig, AutoModelForSeq2SeqLM, AutoTokenizer, pipeline, AutoTokenizer, AutoModel
 from .models import *
 import os.path
 from django.contrib.auth import *
 from django.contrib.auth.decorators import *
-from django.shortcuts import HttpResponse, HttpResponseRedirect, render, redirect
-from numpy import genfromtxt
-import numpy as np
-import os
 from io import StringIO
 from django.core.files.storage import FileSystemStorage
-import inspect
-import matplotlib.pyplot as plt
 import json
 from IPython.display import display
 from pygooglenews import GoogleNews
@@ -44,15 +31,28 @@ from django.contrib import messages
 from django.contrib.auth import *
 from django.contrib.auth.decorators import *
 import psycopg2
-def displayArticlePage(request):
-    context= {
+from .forms import ProfessionForm
 
-    }
-    return render(request, 'articleaday/article.html')
+
 # Create your views here.
 
 def getProfession(request):
-    print("juice cat")
+    if request.method == 'POST': # If the form has been submitted...
+        form = ProfessionForm(request.POST) # A form bound to the POST data
+        if form.is_valid():
+            #Get user career
+            career_input = request.POST.get['career']
+
+            query(summarization(getArticle(career_input)),
+                       'Robotics,Chemistry,Doctor,Computer Science,Business')
+    else:
+        #Else return an empty form
+        form = ProfessionForm() # An unbound form
+
+    context = {
+        'form': form
+    }
+    return render(request, 'contact.html', context)
 
 
 # Query Functions
@@ -77,8 +77,8 @@ def getArticle(user_profession):
     content = driver.find_elements_by_tag_name('p')
     total_text = ""
     for item in content:
-        total_text += item.text + " "
-    return total_text
+        total_text += item.text + "--[101]-- "
+    return total_text 
 
 
 def summarization(ARTICLE):
@@ -126,12 +126,5 @@ def queryForArticleADAY(title_of_article, otherprofessions):
     return sentence2[finalembeddinglist.index(prediction)]
 
 
-def prediction(request):
-    # Prediction of Profession
 
-    prediction = query(summarization(getArticle('Robotics')),
-                       'Robotics,Chemistry,Doctor,Computer Science,Business')
-    context = {
-        'prediction': prediction,
-    }
-    return render(request, 'homepage/prediction.html', context)
+

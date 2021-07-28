@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 import django
-from .forms import ProfessionForm, CreateUserForm, LoginForm
+from .forms import CreateUserForm, LoginForm
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages

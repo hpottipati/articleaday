@@ -13,7 +13,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import django
-from .api_key import SENDGRID_API_KEY
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1+m*w*yd=&5=r#ks9^%o+b4=3)uvytzeyc0ldb29%p@3f4d62x'
+SECRET_KEY = f'django-insecure-1+m*w*yd=&5=r#ks9^%o+b4=3)uvytzeyc0ldb29%p@3f4d62x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -172,13 +174,13 @@ SOCIALACCOUNT_PROVIDERS = {
 MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 
-CONTACT_EMAIL = 'contact@example.com'
-ADMIN_EMAILS = ['pottipatiharshit@gmail.com', ]
+CONTACT_EMAIL = 'hackedt.company@gmail.com'
+ADMIN_EMAILS = ['hackedt.company@gmail.com', ]
 
 
 # Twilio SendGrid
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_USER = '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'
 EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
